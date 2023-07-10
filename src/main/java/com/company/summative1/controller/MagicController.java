@@ -37,13 +37,13 @@ public class MagicController {
     );
 
     @PostMapping("/magic")
-    public <Question> Answer getMagicAnswer(@RequestBody Question question) {
+    public  Answer getMagicAnswer(@RequestBody Answer question) {
         String randomAnswer = getRandomAnswer();
-        Answer answer = new Answer();
-        answer.setId(1L);
-        answer.setQuestion(answer.getQuestion());
-        answer.setAnswer(randomAnswer);
-        return answer;
+        //Answer answer = new Answer();
+        question.setId(1L);
+        question.setQuestion(question.getQuestion());
+        question.setAnswer(randomAnswer);
+        return question;
     }
 
     private String getRandomAnswer() {
@@ -51,4 +51,5 @@ public class MagicController {
         int index = random.nextInt(possibleAnswers.size());
         return possibleAnswers.get(index);
     }
+
 }

@@ -39,8 +39,10 @@ public class MagicController {
     @PostMapping("/magic")
     public  Answer getMagicAnswer(@RequestBody Answer question) {
         String randomAnswer = getRandomAnswer();
+        Random rand = new Random();
+        int int_random = rand.nextInt(100);
         //Answer answer = new Answer();
-        question.setId(1L);
+        question.setId((long) int_random);
         question.setQuestion(question.getQuestion());
         question.setAnswer(randomAnswer);
         return question;

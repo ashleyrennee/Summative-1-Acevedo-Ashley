@@ -1,0 +1,114 @@
+openapi: 3.0.1
+info:
+  title: OpenAPI definition
+  version: v0
+servers:
+  - url: http://localhost:8000
+    description: Generated server url
+paths:
+  /magic:
+    post:
+      tags:
+        - magic-controller
+      operationId: getMagicAnswer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Answer'
+        required: true
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Answer'
+  /{w}:
+    get:
+      tags:
+        - word-controller
+      operationId: getWord
+      parameters:
+        - name: w
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Definition'
+  /word:
+    get:
+      tags:
+        - word-controller
+      operationId: getWordOfTheDay
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Definition'
+  /quote:
+    get:
+      tags:
+        - quote-controller
+      operationId: getRandomQuote
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Quote'
+  /:
+    get:
+      tags:
+        - word-controller
+      operationId: getAllWords
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Definition'
+components:
+  schemas:
+    Answer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        question:
+          type: string
+        answer:
+          type: string
+    Definition:
+      type: object
+      properties:
+        word:
+          type: string
+        definition:
+          type: string
+        id:
+          type: integer
+          format: int32
+    Quote:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        author:
+          type: string
+        quote:
+          type: string

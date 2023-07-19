@@ -1,20 +1,25 @@
 package com.company.summative1.model;
 
 
+import java.util.Objects;
+
 // Answer model
 public class Answer {
-    private Long id;
+    private int id;
     private String question;
     private String answer;
 
     // Constructors, getters, and setters
+    public Answer(int id, String answer){
+        this.id =id;
+        this.answer = answer;
+    }
 
-
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -32,5 +37,27 @@ public class Answer {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Answer answer1 = (Answer) o;
+        return Objects.equals(id, answer1.id) && Objects.equals(question, answer1.question) && Objects.equals(answer, answer1.answer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, question, answer);
+    }
+
+    @Override
+    public String toString() {
+        return "Answer{" +
+                "id=" + id +
+                ", question='" + question + '\'' +
+                ", answer='" + answer + '\'' +
+                '}';
     }
 }

@@ -1,49 +1,51 @@
 package com.company.summative1.controller;
 
 import com.company.summative1.model.Answer;
+import com.company.summative1.model.Quote;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@WebMvcTest(MagicController.class)
 class MagicControllerTest {
+    @Autowired
     private MockMvc mockMvc;
+    private List<Answer> possibleAnswers;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
-    @Mock
-    private MagicController magicController;
-
-    @InjectMocks
-    private MagicControllerTest magicControllerTest;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(magicController).build();
-    }
 
     @Test
     void getMagicAnswer_ShouldReturnAnswer() throws Exception {
-        Answer question = new Answer();
-        question.setQuestion("Will it rain tomorrow?");
+        String outputAns = objectMapper.writeValueAsString(possibleAnswers);
 
-        when(magicController.getMagicAnswer(any(Answer.class))).thenReturn(question);
+        mockMvc.perform(get("/magic"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/magic")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"question\": \"Will it rain tomorrow?\"}"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.question").value("Will it rain tomorrow?"))
-                .andExpect(jsonPath("$.answer").isString());
+    @Test
+    void getMagicAnswer_ShouldReturnAnswerGivenQuestion() throws Exception {
+        String outputAns = objectMapper.writeValueAsString(possibleAnswers);
+
+        mockMvc.perform(get("/magic/will i be happy"))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }

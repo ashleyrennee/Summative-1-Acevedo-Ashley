@@ -3,9 +3,9 @@ package com.company.summative1.model;
 import java.util.Objects;
 
 public class Quote {
-    int id;
-    String author;
-    String quote;
+    private int id;
+    private String author;
+    private String quote;
 
     public Quote(int id, String author, String quote){
         this.id = id;

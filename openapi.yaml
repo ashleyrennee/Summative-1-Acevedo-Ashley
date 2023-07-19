@@ -6,25 +6,33 @@ servers:
   - url: http://localhost:8000
     description: Generated server url
 paths:
-  /magic:
-    post:
+  /words:
+    get:
       tags:
-        - magic-controller
-      operationId: getMagicAnswer
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Answer'
-        required: true
+        - word-controller
+      operationId: getAllWords
       responses:
         '200':
           description: OK
           content:
             '*/*':
               schema:
-                $ref: '#/components/schemas/Answer'
-  /{w}:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Definition'
+  /word:
+    get:
+      tags:
+        - word-controller
+      operationId: getWordOfTheDay
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Definition'
+  /word/{w}:
     get:
       tags:
         - word-controller
@@ -35,18 +43,6 @@ paths:
           required: true
           schema:
             type: string
-      responses:
-        '200':
-          description: OK
-          content:
-            '*/*':
-              schema:
-                $ref: '#/components/schemas/Definition'
-  /word:
-    get:
-      tags:
-        - word-controller
-      operationId: getWordOfTheDay
       responses:
         '200':
           description: OK
@@ -66,32 +62,38 @@ paths:
             '*/*':
               schema:
                 $ref: '#/components/schemas/Quote'
-  /:
+  /magic:
     get:
       tags:
-        - word-controller
-      operationId: getAllWords
+        - magic-controller
+      operationId: getMagicAnswer
       responses:
         '200':
           description: OK
           content:
             '*/*':
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Definition'
+                $ref: '#/components/schemas/Answer'
+  /magic/{ques}:
+    get:
+      tags:
+        - magic-controller
+      operationId: getMagicAnswer_1
+      parameters:
+        - name: ques
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/Answer'
 components:
   schemas:
-    Answer:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-        question:
-          type: string
-        answer:
-          type: string
     Definition:
       type: object
       properties:
@@ -111,4 +113,14 @@ components:
         author:
           type: string
         quote:
+          type: string
+    Answer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        question:
+          type: string
+        answer:
           type: string

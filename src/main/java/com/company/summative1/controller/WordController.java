@@ -9,8 +9,6 @@ import java.util.Random;
 
 @RestController
 public class WordController {
-
-
     private List<Definition> words;
     public WordController(){
         Definition word1 = new Definition(12345, "Gobemouche", "a credulous person or showing too great a readiness to believe absurb things ");
@@ -28,12 +26,12 @@ public class WordController {
     }
 
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/words", method = RequestMethod.GET)
     public List<Definition> getAllWords() {
         return words;
     }
 
-    @RequestMapping(value = "/{w}", method = RequestMethod.GET)
+    @RequestMapping(value = "/word/{w}", method = RequestMethod.GET)
     @ResponseStatus(HttpStatus.OK)
     public Definition getWord(@PathVariable String w ){
 

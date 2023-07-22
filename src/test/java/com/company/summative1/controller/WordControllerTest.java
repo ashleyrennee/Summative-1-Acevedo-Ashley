@@ -22,10 +22,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-//tells spring we are trsting controller
+//tells spring we are testing controller
 @WebMvcTest(WordController.class)
 public class WordControllerTest {
-    //dependecy injection
+    //dependency injection
     @Autowired
     private MockMvc mockMvc;
 
